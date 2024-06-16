@@ -44,8 +44,9 @@ window.onload = async () => {
 
                 pokemons = await fetchApiPoke(offset, 1302)
 
-                // checking the search value to set the limit of fetching datas
+                // checking the search value to set the limit of fetching datas and go to initial state
                 if (searchValue === '') {
+                    offset = 0
                     pokemons = await fetchApiPoke(offset, 20)
 
                     // show the next action button
@@ -64,6 +65,15 @@ window.onload = async () => {
                 // change the data with filtered data
                 await renderPokemonCard(filteredPokemons)
             }
+        })
+
+        // on click title
+        document.getElementById('title').addEventListener('click', async () => {
+            // set the offset to 0 and render it again
+            pokemons = await fetchApiPoke(0)
+            await renderPokemonCard(pokemons)
+
+            document.getElementById('previous').classList.add('hidden')
         })
 
     } catch (error) {
@@ -96,16 +106,49 @@ async function renderPokemonCard(pokemons) {
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 first-letter:uppercase">${pokemon.name}</h5>
                         </div>
                 `
-
             // add click event listener to open modal and set the modal data
             pokeCard.addEventListener('click', () => {
                 // set modal content with pokemon data
-                document.getElementById('modal-title').textContent = `${pokemon.name}`
+                document.getElementById('modal-title').textContent = `${pokemon.name}`;
                 document.getElementById('modal-image').src = resultPokemonUrl.sprites.front_default
+                document.getElementById('pokemon-height').innerHTML = `Height <b>${resultPokemonUrl.height}</b>`
+                document.getElementById('pokemon-weight').innerHTML = `Weight <b>${resultPokemonUrl.weight}</b>`
+                document.getElementById('pokemon-hp').innerHTML = `HP <b>${resultPokemonUrl.stats[0].base_stat}</b>`
+                document.getElementById('pokemon-atk').innerHTML = `ATK <b>${resultPokemonUrl.stats[1].base_stat}</b>`
+                document.getElementById('pokemon-def').innerHTML = `DEF <b>${resultPokemonUrl.stats[2].base_stat}</b>`
+                document.getElementById('pokemon-spd').innerHTML = `SPD <b>${resultPokemonUrl.stats[5].base_stat}</b>`
+
+                // pokemon abilities
+                const abilitiesContainer = document.getElementById('abilities-container');
+                abilitiesContainer.innerHTML = '' // Clear previous abilities
+
+                resultPokemonUrl.abilities.forEach((ability) => {
+                    // create pokemon ability item
+                    const pokemonAbility = document.createElement('p')
+                    pokemonAbility.className = "px-4 first-letter:uppercase py-1 rounded-full text-white bg-[#EF5350]"
+                    pokemonAbility.textContent = ability.ability.name
+
+                    // isert pokemon ability item to pokemon abilities
+                    abilitiesContainer.appendChild(pokemonAbility)
+                });
+
+                // pokemon types
+                const typesContainer = document.getElementById('types-container');
+                typesContainer.innerHTML = '' // Clear previous abilities
+
+                resultPokemonUrl.types.forEach((type) => {
+                    // create pokemon ability item
+                    const pokemonType = document.createElement('p')
+                    pokemonType.className = "px-4 first-letter:uppercase py-1 rounded-full text-white bg-[#EF5350]"
+                    pokemonType.textContent = type.type.name
+                    // isert pokemon ability item to pokemon abilities
+                    typesContainer.appendChild(pokemonType)
+                });
 
                 // remove the hidden class to show the modal
                 document.getElementById('pokemon-modal').classList.remove('hidden')
             })
+
 
             // insert poke card data
             pokeContainer.appendChild(pokeCard)
