@@ -48,8 +48,7 @@ window.onload = async () => {
                 if (searchValue === '') {
                     pokemons = await fetchApiPoke(offset, 20)
 
-                    // show the action button
-                    document.getElementById('previous').classList.remove('hidden')
+                    // show the next action button
                     document.getElementById('next').classList.remove('hidden')
                 } else {
                     // hide the action button when searching
