@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PokeWeb</title>
+
+        <!-- cdn tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <style>
+            body {
+                background: url('/img/bg-pokemon-emerald.png');
+                background-attachment: fixed;
+                overflow-x: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="bg-[#EF5350] p-3 top-0 sticky z-50">
+            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="text-white text-2xl font-bold">PokeWeb</a>
+
+                <!-- search  -->
+                <div class="relative w-[75%] mt-3 md:mt-0">
+                    <input id="search" type="text" placeholder="Looking for a Pokémon? Type Name and Press Enter" class="w-full py-3 pl-12 pr-4 rounded-full border" />
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5" fill="gray" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- container of pokemons data -->
+        <div id="poke-container" class="flex flex-wrap justify-center gap-8 mb-5 mt-3 mx-10"></div>
+
+        <!-- button to load more -->
+        <div class="flex justify-center my-8 gap-4">
+            <button id="previous" class="p-5 font-medium text-xl hover:opacity-75 transition rounded-full bg-[#EF5350] text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
+            </button>
+
+            <button id="next" class="p-5 font-medium text-xl hover:opacity-75 transition rounded-full bg-[#EF5350] text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Modal -->
+        <div id="pokemon-modal" class="fixed inset-0 hidden z-50 overflow-y-auto">
+            <!-- modal overlay -->
+            <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50"></div>
+
+            <!-- the modal -->
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="relative w-full max-w-lg mx-auto bg-white border border-gray-200 rounded-lg shadow">
+                    <div class="flex justify-between p-3 items-center border-b pb-3">
+                        <h3 id="modal-title" class="text-2xl font-semibold first-letter:uppercase"></h3>
+                        <button id="modal-close" class="text-gray-600 hover:text-gray-900 text-3xl">&times;</button>
+                    </div>
+                    <div id="modal-body" class="p-5">
+                        <img id="modal-image" class="w-48 mx-auto mb-4" />
+                        <p id="modal-details"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- scripts -->
+        <script src="scripts/api.js"></script>
+    </body>
+</html>
